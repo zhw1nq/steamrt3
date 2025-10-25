@@ -1,0 +1,20 @@
+FROM registry.gitlab.steamos.cloud/steamrt/sniper/platform:latest-container-runtime-depot
+LABEL author="zhw1nq" maintainer="zhw1nq@vhming.com"
+LABEL org.opencontainers.image.description="SteamRT3 for Pelican Panel - CS2/Source"
+LABEL org.opencontainers.image.source="https://github.com/zhw1nq/steamrt3"
+
+RUN mkdir -p /etc/sudoers.d && \
+    echo "%sudo ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/flatdeb && \
+    chmod 0440 /etc/sudoers.d/flatdeb
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y iproute2 ca-certificates curl && apt-get clean
+
+USER container
+ENV USER=container HOME=/home/container
+WORKDIR /home/container
+
+COPY --chown=container:container ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/bin/bash", "/entrypoint.sh"]
