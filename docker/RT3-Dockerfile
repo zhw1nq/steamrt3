@@ -1,3 +1,4 @@
+# docker/RT3-Dockerfile
 FROM registry.gitlab.steamos.cloud/steamrt/sniper/platform:latest-container-runtime-depot
 LABEL author="zhw1nq" maintainer="zhw1nq@vhming.com"
 LABEL org.opencontainers.image.description="SteamRT3 for Pelican Panel - CS2/Source"
@@ -14,7 +15,7 @@ USER container
 ENV USER=container HOME=/home/container
 WORKDIR /home/container
 
-COPY --chown=container:container ./entrypoint.sh /entrypoint.sh
+COPY --chown=container:container ./docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 CMD ["/bin/bash", "/entrypoint.sh"]
